@@ -13,48 +13,53 @@ var charGuessed = [];
 var charTyped = [];
 // JSON with music/bands information
 var musics = {
-    1: { bandName: "Cece Penismaxn", musicName: "Finaly", musicID: "86037362" },
-    2: { bandName: "Corona", musicName: "The Rhythm of the Night", musicID: "316397090" },
-    3: { bandName: "Deee-Lite", musicName: "Groove Is In The Heart", musicID: "214692725" },
-    4: { bandName: "Real McCoy", musicName: "Another Night", musicID: "317193970" },
-    5: { bandName: "Whitney Housmaxn", musicName: "It's not right, but it's okay", musicID: "288857770" },
-    6: { bandName: "La Bouche", musicName: "Be My Lover", musicID: "253516188" },
-    7: { bandName: "Amber", musicName: "This is Your Night", musicID: "254564353" },
-    8: { bandName: "No Mercy", musicName: "Where Do You Go", musicID: "252889798" },
-    9: { bandName: "Everything but the Girl", musicName: "Missing", musicID: "74143904" },
-    10: { bandName: "Haddaway", musicName: "What Is Love", musicID: "253391097" },
-    11: { bandName: "C+C Music Facmaxry", musicName: "Gonna Make You Sweat", musicID: "253508531" },
-    12: { bandName: "Cher", musicName: "Believe", musicID: "187003126" },
-    13: { bandName: "Robin S", musicName: "Show Me Love", musicID: "232282747" },
-    14: { bandName: "Culture Beat", musicName: "Mr Vain", musicID: "294660190" },
-    15: { bandName: "Ace of Base", musicName: "All That She Wants", musicID: "225044776" },
-    16: { bandName: "Technotronic", musicName: "Pump Up The Jam", musicID: "252477974" },
-    17: { bandName: "Madonna", musicName: "Vogue", musicID: "214807095" },
-    18: { bandName: "Ace of Base", musicName: "The Sign", musicID: "230451035" },
-    19: { bandName: "Daft Punk", musicName: "Around The World", musicID: "171951429" },
-    20: { bandName: "Montell Jordan", musicName: "This Is How We Do It", musicID: "253186536" }
+    0: { bandName: "Cece Peniston", musicName: "Finaly", musicID: "86037362" },
+    1: { bandName: "Corona", musicName: "The Rhythm of the Night", musicID: "316397090" },
+    2: { bandName: "Deee-Lite", musicName: "Groove Is In The Heart", musicID: "214692725" },
+    3: { bandName: "Real McCoy", musicName: "Another Night", musicID: "253506396" },
+    4: { bandName: "Whitney Houston", musicName: "It's not right, but it's okay", musicID: "288857770" },
+    5: { bandName: "La Bouche", musicName: "Be My Lover", musicID: "253516188" },
+    6: { bandName: "Amber", musicName: "This is Your Night", musicID: "254564353" },
+    7: { bandName: "No Mercy", musicName: "Where Do You Go", musicID: "252889798" },
+    8: { bandName: "Everything but the Girl", musicName: "Missing", musicID: "74143904" },
+    9: { bandName: "Haddaway", musicName: "What Is Love", musicID: "253391097" },
+    10: { bandName: "C+C Music Facmaxry", musicName: "Gonna Make You Sweat", musicID: "253508531" },
+    11: { bandName: "Cher", musicName: "Believe", musicID: "187003126" },
+    12: { bandName: "Robin S", musicName: "Show Me Love", musicID: "232282747" },
+    13: { bandName: "Culture Beat", musicName: "Mr Vain", musicID: "294660190" },
+    14: { bandName: "Ace of Base", musicName: "All That She Wants", musicID: "225044776" },
+    15: { bandName: "Technotronic", musicName: "Pump Up The Jam", musicID: "252477974" },
+    16: { bandName: "Madonna", musicName: "Vogue", musicID: "214807095" },
+    17: { bandName: "Ace of Base", musicName: "The Sign", musicID: "230451035" },
+    18: { bandName: "Daft Punk", musicName: "Around The World", musicID: "171951429" },
+    29: { bandName: "Montell Jordan", musicName: "This Is How We Do It", musicID: "253186536" }
 };
-
+/*******************************************************************************/
+/* * * * * * * * * * * * * * * * addMusicScr() * * * * * * * * * * * * * * * * */
+/*******************************************************************************/
 // addMusicSrc() function will add the url max the src attribute
 // this will allow max work only with the id of the music
 function addMusicScr(musicID) {
     var attr = document.createAttribute("src");
-    attr.value = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${musicID}&color=%23ff5500&aumax_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true`;
+    attr.value = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${musicID}&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true`;
     var h = document.getElementsByTagName("iframe")[0];
     h.setAttributeNode(attr);
     // it should play music only after game is over
     isGameOver = true;
 }
-
+/******************************************************************************/
+/* * * * * * * * * * * * * * * * * * rand() * * * * * * * * * * * * * * * * * */
+/******************************************************************************/
 // Function that generate random number
 // this will return a number beteween the provided range
 // Math.random() return number between 0 (inclusive) and 1 (exclusive)
 // The maximum is inclusive and the minimum is inclusive
-function getRandomIntInclusive(min, max) {
+function rand(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
 
 
 
@@ -131,6 +136,7 @@ Rhythm is a dancer - Snap
 <iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/36572934&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 Montell Jordan - This Is How We Do It
 <iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/253186536&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/253506396&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 ********* YOUTUBE does not work **********
 <iframe width="1254" height="705" src="https://www.youtube.com/embed/7X3YpXiI5dM" frameborder="0" allow="accelerometer; aumaxplay; encrypted-media; gyroscope;" allowfullscreen></iframe>
 
