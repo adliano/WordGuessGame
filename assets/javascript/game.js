@@ -96,12 +96,16 @@ function addStr(char,strId){
     var textNode = document.createTextNode(char);
     node.appendChild(textNode);
     document.getElementById(strId).appendChild(node);
+    // TODO: try to add span with id and each id will me equal to its char
 }
 
 /*****************************************************************************/
 /* * * * * * * * * * * * * * * onkeyup event * * * * * * * * * * * * * * * * */
 /*****************************************************************************/
 document.onkeyup = (event) => {
+
+    let key = event.key;
+
     // Assumption:
     //  if game is over or no more music to play
     // display press any key to start the game
@@ -143,12 +147,22 @@ document.onkeyup = (event) => {
         });
 
         addStr(musicMask,"idCurrentWordLine");
-
         // change game status
         isGameOver = !isGameOver;
         return;
     }
     
+    let charIndex = currentMusic.bandName.indexOf(key);
+
+    // if(charIndex < 0){
+    //     addStr(key,"idGuessedChars");
+    // }
+    // else{
+    //     musicMask.indexOf(charIndex) = key;
+    //     addStr(musicMask,"idCurrentWordLine");
+    // }
+        
+
     // random pick a music on the array using its key 
     // splice will remove the key from array and return an array
     // in this case an array with a single lement
