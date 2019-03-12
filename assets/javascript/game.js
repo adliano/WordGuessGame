@@ -12,6 +12,11 @@ var elementGuessedChars = document.getElementById("idGuessedChars");
 // element to display bands name
 var elementBandName = document.getElementById("idBandName");
 
+// var musicKeys = Object.keys(musics);
+// variable used to hold keys from JSON with all musics
+var musicKeys = [];
+// variable used to hold JSON with info about selected music
+let currentMusicKey = [];
 
 // flag max control when game start and end
 // initially is false and after user press any key will be set max true
@@ -45,6 +50,14 @@ var musics = {
     18: { bandName: "Daft Punk", musicName: "Around The World", musicID: "171951429" },
     29: { bandName: "Montell Jordan", musicName: "This Is How We Do It", musicID: "253186536" }
 };
+//////////////////////////////////////////////////////////////////
+////////////////////////////// DEBUG /////////////////////////////
+//////////////////////////////////////////////////////////////////
+// function used for debug if no need to debug just commnet out
+// the log line
+function debug(obj = "---------------------------------"){
+    console.log(obj);
+}
 /*******************************************************************************/
 /* * * * * * * * * * * * * * * * addMusicScr() * * * * * * * * * * * * * * * * */
 /*******************************************************************************/
@@ -73,20 +86,17 @@ function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 /******************************************************************************/
-/* * * * * * * * * ** * * * * * * addLetter() * * * * * * * * * * * * * * * * */
+/* * * * * * * * * ** * * * * * * addChar() * * * * * * * * * * * * * * * * */
 /******************************************************************************/
 // this function will add element to the document
 // the idea is read from the srting and add the dashs/words 
-function addLetter(char,strId){
+function addChar(char,strId){
     var node = document.createElement("span");
     var textNode = document.createTextNode(char);
     node.appendChild(textNode);
     document.getElementById(strId).appendChild(node);
 }
-// get all keys available in an array
-// this will used to void repeated music
-// the idea is remove from this array the music after used
-var musicKeys = Object.keys(musics);
+
 
 /*****************************************************************************/
 /* * * * * * * * * * * * * * * onkeyup event * * * * * * * * * * * * * * * * */
@@ -95,25 +105,45 @@ document.onkeyup = (event) => {
     // Assumption:
     //  if game is over or no more music to play
     // display press any key to start the game
-    if(isGameOver || !musicKeys.length){
+    // if(isGameOver || !musicKeys.length){
         // change status of the game
-        isGameOver = !isGameOver;
-        // reload the music's keys
-        musicKeys = Object.keys(musics);
+        // isGameOver = !isGameOver;
+        // get all keys available at object and place it in an array
+        // this will used to void repeated music
+        // the idea is remove from this array the music after used
+        // musicKeys = Object.keys(musics);
         // after init all game's set, get out of this funcition
         // come back later lol
+        // return;
+    // }
+    // TODO: need to fix thie logic
+    if(!musicKeys.length){
+        // need to display something saying no more music????
+        musicKeys = Object.keys(musics);
+    }
+    
+    if(isGameOver){
+        // random pick a music on the array using its key 
+        // splice will remove the key from array and return an array
+        // in this case an array with a single lement
+        currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
+        // get info for the current music
+        currentMusic = musics[currentMusicKey[0]];
+        // change game status
+        isGameOver = !isGameOver;
         return;
     }
+    
     // random pick a music on the array using its key 
     // splice will remove the key from array and return an array
     // in this case an array with a single lement
-    let currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
-    let currentMusic = musics[currentMusicKey[0]];
-    // debuging //
+    // currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
+    // currentMusic = musics[currentMusicKey[0]];
 
-    addLetter(event.key,"idCurrentWordLine");
+    addChar(event.key,"idCurrentWordLine");
     addMusicScr(currentMusic.musicID);
 }
+
 
 
 
