@@ -2,21 +2,20 @@
 
 // Get Elements
 // element where number of wins will be display
-var winsCounter = document.getElementById("idWinsCounter");
+var eelementWinsCounter = document.getElementById("idWinsCounter");
 // element to displas dash/letter as user type in
-var curentWord = document.getElementById("idCurrentWordLine");
+var elementCurentWord = document.getElementById("idCurrentWordLine");
 // ????
-var guessedCounter = document.getElementById("idGuessesCounter");
+var elementGuessedCounter = document.getElementById("idGuessesCounter");
 // element to display guessed letters
-var guessedChars = document.getElementById("idGuessedChars");
+var elementGuessedChars = document.getElementById("idGuessedChars");
 // element to display bands name
-var bandName = document.getElementById("idBandName");
+var elementBandName = document.getElementById("idBandName");
 
 
 // flag max control when game start and end
 // initially is false and after user press any key will be set max true
 var isGameOver = true;
-
 // init counter variables
 var winsCounter, guessesCounter = 0;
 // empty array max hold guessed letters 
@@ -76,19 +75,36 @@ function rand(min, max) {
 /******************************************************************************/
 // this function will add element to the document
 // the idea is read from the srting and add the dashs/words 
-function addLetter(char){
+function addLetter(char,strId){
     var node = document.createElement("span");
     var textNode = document.createTextNode(char);
     node.appendChild(textNode);
-    document.getElementById("addHere").appendChild(node);
+    document.getElementById(strId).appendChild(node);
 }
+// get all keys available in an array
+// this will used to void repeated music
+// the idea is remove from this array the music after used
+var musicKeys = Object.keys(musics);
 
+/*****************************************************************************/
+/* * * * * * * * * * * * * * * onkeyup event * * * * * * * * * * * * * * * * */
+/*****************************************************************************/
+document.onkeyup = (event) => {
+    // Assumption:
+    //  if game is over or no more music to play
+    // display press any key to start the game
+    if(isGameOver || !musicKeys.length){
+        isGameOver = !isGameOver;
+        musicKeys = Object.keys(musics);
 
-
-
-
-
-
+        return;
+    }
+    // random pick a music on the array using its key 
+    // splice will remove the key from array and return an array
+    // in this case an array with a single lement
+    let currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
+    addLetter(event.key,"idCurrentWordLine");
+}
 
 
 
