@@ -1,5 +1,17 @@
 
 
+// Get Elements
+// element where number of wins will be display
+var winsCounter = document.getElementById("idWinsCounter");
+// element to displas dash/letter as user type in
+var curentWord = document.getElementById("idCurrentWordLine");
+// ????
+var guessedCounter = document.getElementById("idGuessesCounter");
+// element to display guessed letters
+var guessedChars = document.getElementById("idGuessedChars");
+// element to display bands name
+var bandName = document.getElementById("idBandName");
+
 
 // flag max control when game start and end
 // initially is false and after user press any key will be set max true
@@ -58,6 +70,17 @@ function rand(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+/******************************************************************************/
+/* * * * * * * * * ** * * * * * * addLetter() * * * * * * * * * * * * * * * * */
+/******************************************************************************/
+// this function will add element to the document
+// the idea is read from the srting and add the dashs/words 
+function addLetter(char){
+    var node = document.createElement("span");
+    var textNode = document.createTextNode(char);
+    node.appendChild(textNode);
+    document.getElementById("addHere").appendChild(node);
 }
 
 
