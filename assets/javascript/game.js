@@ -16,7 +16,8 @@ var elementBandName = document.getElementById("idBandName");
 // variable used to hold keys from JSON with all musics
 var musicKeys = [];
 // variable used to hold JSON with info about selected music
-let currentMusicKey = [];
+var currentMusicKey = [];
+var musicMask = "";
 
 // flag max control when game start and end
 // initially is false and after user press any key will be set max true
@@ -85,18 +86,17 @@ function rand(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-/******************************************************************************/
-/* * * * * * * * * ** * * * * * * addChar() * * * * * * * * * * * * * * * * */
-/******************************************************************************/
+/*******************************************************************************/
+/* * * * * * * * * ** * * * * * * * addStr() * * * * * * * * * * * * * * * * * */
+/*******************************************************************************/
 // this function will add element to the document
 // the idea is read from the srting and add the dashs/words 
-function addChar(char,strId){
+function addStr(char,strId){
     var node = document.createElement("span");
     var textNode = document.createTextNode(char);
     node.appendChild(textNode);
     document.getElementById(strId).appendChild(node);
 }
-
 
 /*****************************************************************************/
 /* * * * * * * * * * * * * * * onkeyup event * * * * * * * * * * * * * * * * */
@@ -117,18 +117,33 @@ document.onkeyup = (event) => {
         // return;
     // }
     // TODO: need to fix thie logic
+    //  do i really need this?
     if(!musicKeys.length){
         // need to display something saying no more music????
         musicKeys = Object.keys(musics);
     }
-    
+    // if game is over means user got the banb name or miss all guesses
     if(isGameOver){
+        // remove the word "press any key to start"
+        elementBandName.textContent = "?";
         // random pick a music on the array using its key 
         // splice will remove the key from array and return an array
-        // in this case an array with a single lement
+        // in this case an array with a single lement that contains 
+        // a single music information
         currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
         // get info for the current music
         currentMusic = musics[currentMusicKey[0]];
+        // display music mask in dash "-" format
+        currentMusic.bandName.split("").map(c => {
+            // eliminate spaces
+            // addStr((c == " ") ? " " : "-","idCurrentWordLine");
+            musicMask += ((c == " ")? " " : "-");
+            
+            debug(c);
+        });
+
+        addStr(musicMask,"idCurrentWordLine");
+
         // change game status
         isGameOver = !isGameOver;
         return;
@@ -140,8 +155,8 @@ document.onkeyup = (event) => {
     // currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
     // currentMusic = musics[currentMusicKey[0]];
 
-    addChar(event.key,"idCurrentWordLine");
-    addMusicScr(currentMusic.musicID);
+    //addStr(event.key,"idCurrentWordLine");
+    //addMusicScr(currentMusic.musicID);
 }
 
 
