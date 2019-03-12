@@ -51,12 +51,14 @@ var musics = {
 // addMusicSrc() function will add the url max the src attribute
 // this will allow max work only with the id of the music
 function addMusicScr(musicID) {
+    // boolean created to easy change autoplay
+    var autoPlay = true;
     var attr = document.createAttribute("src");
-    attr.value = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${musicID}&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true`;
+    attr.value = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${musicID}&color=%23ff5500&auto_play=${autoPlay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true`;
     var h = document.getElementsByTagName("iframe")[0];
     h.setAttributeNode(attr);
     // it should play music only after game is over
-    isGameOver = true;
+    // isGameOver = true;
 }
 /******************************************************************************/
 /* * * * * * * * * * * * * * * * * * rand() * * * * * * * * * * * * * * * * * */
@@ -94,16 +96,23 @@ document.onkeyup = (event) => {
     //  if game is over or no more music to play
     // display press any key to start the game
     if(isGameOver || !musicKeys.length){
+        // change status of the game
         isGameOver = !isGameOver;
+        // reload the music's keys
         musicKeys = Object.keys(musics);
-
+        // after init all game's set, get out of this funcition
+        // come back later lol
         return;
     }
     // random pick a music on the array using its key 
     // splice will remove the key from array and return an array
     // in this case an array with a single lement
     let currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
+    let currentMusic = musics[currentMusicKey[0]];
+    // debuging //
+
     addLetter(event.key,"idCurrentWordLine");
+    addMusicScr(currentMusic.musicID);
 }
 
 
