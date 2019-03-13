@@ -8,7 +8,7 @@ var elementCurentWord = document.getElementById("idCurrentWordLine");
 // ????
 var elementGuessedCounter = document.getElementById("idGuessesCounter");
 // element to display guessed letters
-var elementGuessedChars = document.getElementById("idGuessedChars");
+var elementGuessedspanTexts = document.getElementById("idGuessedspanTexts");
 // element to display bands name
 var elementBandName = document.getElementById("idBandName");
 
@@ -25,9 +25,9 @@ var isGameOver = true;
 // init counter variables
 var winsCounter, guessesCounter = 0;
 // empty array max hold guessed letters 
-var charGuessed = [];
-// array max hold typed char
-var charTyped = [];
+var spanTextGuessed = [];
+// array max hold typed spanText
+var spanTextTyped = [];
 // JSON with music/bands information
 var musics = {
     0: { bandName: "Cece Peniston", musicName: "Finaly", musicID: "86037362" },
@@ -67,13 +67,21 @@ function debug(obj = "---------------------------------"){
 function addMusicScr(musicID) {
     // boolean created to easy change autoplay
     var autoPlay = true;
-    var attr = document.createAttribute("src");
+    let attr = document.createAttribute("src");
     attr.value = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${musicID}&color=%23ff5500&auto_play=${autoPlay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true`;
-    var h = document.getElementsByTagName("iframe")[0];
+    let h = document.getElementsByTagName("iframe")[0];
     h.setAttributeNode(attr);
     // it should play music only after game is over
     // isGameOver = true;
 }
+/*******************************************************************************/
+/* * * * * * * * * * * * * * * addSpanId() * * * * * * * * * * * * * * * * * * */
+/*******************************************************************************/
+// function addSpanId(id){
+//     let attribute = document.createAttribute("id");
+//     attribute.value = id;
+//    // let tagElement = document.getEl
+// }
 /******************************************************************************/
 /* * * * * * * * * * * * * * * * * * rand() * * * * * * * * * * * * * * * * * */
 /******************************************************************************/
@@ -87,16 +95,19 @@ function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 /*******************************************************************************/
-/* * * * * * * * * ** * * * * * * * addStr() * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * ** * * * * * * * addSpanElement() * * * * * * * * * * * * * * * * * */
 /*******************************************************************************/
 // this function will add element to the document
 // the idea is read from the srting and add the dashs/words 
-function addStr(char,strId){
-    var node = document.createElement("span");
-    var textNode = document.createTextNode(char);
-    node.appendChild(textNode);
-    document.getElementById(strId).appendChild(node);
-    // TODO: try to add span with id and each id will me equal to its char
+function addSpanElement(parentId,spanId,spanText){
+    // create new element
+    let node = document.createElement("span");
+    // set attribute id with a value
+    node.setAttribute("id",spanId);
+    // add text to node
+    node.textContent = spanText;
+    // apend the element to it's parrent
+    document.getElementById(parentId).appendChild(node);
 }
 
 /*****************************************************************************/
@@ -139,27 +150,33 @@ document.onkeyup = (event) => {
         currentMusic = musics[currentMusicKey[0]];
         // display music mask in dash "-" format
         currentMusic.bandName.split("").map(c => {
+
+            // function addSpanElement(parentId,spanId,spanText)
+            addSpanElement("idCurrentWordLine",c,(c == " ")? " " : "-");
+
             // eliminate spaces
-            // addStr((c == " ") ? " " : "-","idCurrentWordLine");
-            musicMask += ((c == " ")? " " : "-");
+            //addSpanElement((c == " ") ? " " : "-","idCurrentWordLine");
+            // musicMask += ((c == " ")? " " : "-");
+            
             
             debug(c);
         });
 
-        addStr(musicMask,"idCurrentWordLine");
+        //addSpanElement(musicMask,"idCurrentWordLine");
         // change game status
         isGameOver = !isGameOver;
         return;
     }
     
-    let charIndex = currentMusic.bandName.indexOf(key);
+    let spanTextIndex = currentMusic.bandName.indexOf(key);
+    
 
-    // if(charIndex < 0){
-    //     addStr(key,"idGuessedChars");
+    // if(spanTextIndex < 0){
+    //     addSpanElement(key,"idGuessedspanTexts");
     // }
     // else{
-    //     musicMask.indexOf(charIndex) = key;
-    //     addStr(musicMask,"idCurrentWordLine");
+    //     musicMask.indexOf(spanTextIndex) = key;
+    //     addSpanElement(musicMask,"idCurrentWordLine");
     // }
         
 
@@ -169,8 +186,8 @@ document.onkeyup = (event) => {
     // currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
     // currentMusic = musics[currentMusicKey[0]];
 
-    //addStr(event.key,"idCurrentWordLine");
-    //addMusicScr(currentMusic.musicID);
+    //addSpanElement(event.key,"idCurrentWordLine");
+   // addMusicScr(currentMusic.musicID);
 }
 
 
