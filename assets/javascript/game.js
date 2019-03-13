@@ -17,7 +17,10 @@ var elementBandName = document.getElementById("idBandName");
 var musicKeys = [];
 // variable used to hold JSON with info about selected music
 var currentMusicKey = [];
-var musicMask = "";
+// variabe to hold the current song JSON
+var currentMusicObject;
+// array to hold the latters from the current song
+var currentMusicChars = [];
 
 // flag max control when game start and end
 // initially is false and after user press any key will be set max true
@@ -32,7 +35,7 @@ var spanTextTyped = [];
 var musics = {
     0: { bandName: "Cece Peniston", musicName: "Finaly", musicID: "86037362" },
     1: { bandName: "Corona", musicName: "The Rhythm of the Night", musicID: "316397090" },
-    2: { bandName: "Deee-Lite", musicName: "Groove Is In The Heart", musicID: "214692725" },
+    2: { bandName: "Deee Lite", musicName: "Groove Is In The Heart", musicID: "214692725" },
     3: { bandName: "Real McCoy", musicName: "Another Night", musicID: "253506396" },
     4: { bandName: "Whitney Houston", musicName: "It's not right, but it's okay", musicID: "288857770" },
     5: { bandName: "La Bouche", musicName: "Be My Lover", musicID: "253516188" },
@@ -66,7 +69,7 @@ function debug(obj = "---------------------------------"){
 // this will allow max work only with the id of the music
 function addMusicScr(musicID) {
     // boolean created to easy change autoplay
-    var autoPlay = true;
+    let autoPlay = true;
     let attr = document.createAttribute("src");
     attr.value = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${musicID}&color=%23ff5500&auto_play=${autoPlay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=true`;
     let h = document.getElementsByTagName("iframe")[0];
@@ -74,14 +77,6 @@ function addMusicScr(musicID) {
     // it should play music only after game is over
     // isGameOver = true;
 }
-/*******************************************************************************/
-/* * * * * * * * * * * * * * * addSpanId() * * * * * * * * * * * * * * * * * * */
-/*******************************************************************************/
-// function addSpanId(id){
-//     let attribute = document.createAttribute("id");
-//     attribute.value = id;
-//    // let tagElement = document.getEl
-// }
 /******************************************************************************/
 /* * * * * * * * * * * * * * * * * * rand() * * * * * * * * * * * * * * * * * */
 /******************************************************************************/
@@ -94,9 +89,9 @@ function rand(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-/*******************************************************************************/
-/* * * * * * * * * ** * * * * * * * addSpanElement() * * * * * * * * * * * * * * * * * */
-/*******************************************************************************/
+/******************************************************************************/
+/* * * * * * * * * * * * * * addSpanElement() * * * * * * * * * * * * * * * * */
+/******************************************************************************/
 // this function will add element to the document
 // the idea is read from the srting and add the dashs/words 
 function addSpanElement(parentId,spanId,spanText){
@@ -109,13 +104,12 @@ function addSpanElement(parentId,spanId,spanText){
     // apend the element to it's parrent
     document.getElementById(parentId).appendChild(node);
 }
-
 /*****************************************************************************/
 /* * * * * * * * * * * * * * * onkeyup event * * * * * * * * * * * * * * * * */
 /*****************************************************************************/
 document.onkeyup = (event) => {
-
-    let key = event.key;
+    // get the key pressed
+    let letter = event.key;
 
     // Assumption:
     //  if game is over or no more music to play
@@ -147,37 +141,41 @@ document.onkeyup = (event) => {
         // a single music information
         currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
         // get info for the current music
-        currentMusic = musics[currentMusicKey[0]];
+        currentMusicObject = musics[currentMusicKey[0]];
+
+        currentMusicChars = currentMusicObject.bandName.split("");
         // display music mask in dash "-" format
-        currentMusic.bandName.split("").map(c => {
+        // currentMusicChars.forEach((i,ch) => {
+        //     addSpanElement("idCurrentWordLine",i,(ch == " ")? " " : "-");
+        // });
+        debug(currentMusicChars);
 
+        currentMusicObject.bandName.split("").map(c => {
             // function addSpanElement(parentId,spanId,spanText)
-            addSpanElement("idCurrentWordLine",c,(c == " ")? " " : "-");
-
-            // eliminate spaces
-            //addSpanElement((c == " ") ? " " : "-","idCurrentWordLine");
-            // musicMask += ((c == " ")? " " : "-");
-            
-            
-            debug(c);
+            addSpanElement("idCurrentWordLine",c.charCodeAt(0),(c == " ")? " " : "-");
         });
-
-        //addSpanElement(musicMask,"idCurrentWordLine");
         // change game status
         isGameOver = !isGameOver;
         return;
     }
     
-    let spanTextIndex = currentMusic.bandName.indexOf(key);
+    let spanTextIndex = currentMusicChars.indexOf(letter);
+    debug(spanTextIndex);
     
 
-    // if(spanTextIndex < 0){
-    //     addSpanElement(key,"idGuessedspanTexts");
-    // }
-    // else{
-    //     musicMask.indexOf(spanTextIndex) = key;
-    //     addSpanElement(musicMask,"idCurrentWordLine");
-    // }
+    var test = document.getElementById("idCurrentWordLine").children;
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////
+    if(spanTextIndex < 0){
+         addSpanElement("idGuessedChars",letter,letter);
+    }
+     else{
+         test[spanTextIndex].textContent = letter;
+    //     document.getElementById(currentMusicChars[spanTextIndex].charCodeAt(0)).textContent = letter;
+    }
         
 
     // random pick a music on the array using its key 
