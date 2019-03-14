@@ -20,7 +20,10 @@ var currentMusicKey = [];
 // variabe to hold the current song JSON
 var currentMusicObject;
 // array to hold the latters from the current song
-var currentMusicChars = [];
+var currentMusicCharsUpper = [];
+
+var currentMusicCharsOrig = [];
+
 // set to hold typed letters
 var lettersSet = new Set();
 // flag max control when game start and end
@@ -57,7 +60,7 @@ var musics = {
 // function used for debug if no need to debug just commnet out
 // the log line
 function debug(obj = "---------------------------------"){
-    console.trace();
+    //console.trace();
     console.log(obj);
 }
 // debug in table
@@ -100,7 +103,7 @@ function addSpanElement(parentId,spanId,spanText){
     // create new element
     let node = document.createElement("span");
     // set attribute id with a value
-    node.setAttribute("class",spanId);
+    node.setAttribute("class",`${spanId} guessedLetter`);
     // add text to node
     node.textContent = spanText;
     // apend the element to it's parrent
@@ -111,7 +114,7 @@ function addSpanElement(parentId,spanId,spanText){
 /*****************************************************************************/
 document.onkeyup = (event) => {
     // get the key pressed
-    let letter = event.key.toUpperCase();
+    let letter = event.key;
 
     // Assumption:
     //  if game is over or no more music to play
@@ -136,16 +139,21 @@ document.onkeyup = (event) => {
         currentMusicObject = musics[currentMusicKey[0]];
         // debugging //
         debugt(musics);
+
+        /////////////////////////////////////////////////////////////////
+        currentMusicCharsOrig = currentMusicObject.bandName.split("");
+
+
         // create a array with the current music letters
-        currentMusicChars = currentMusicObject.bandName.toUpperCase().split("");
+        currentMusicCharsUpper = currentMusicObject.bandName.toUpperCase().split("");
         // debuging
-        debug(currentMusicChars);
+        debug(currentMusicCharsUpper);
         // display music mask in dash "-" format
-        currentMusicChars.map(c => {
+        currentMusicCharsUpper.map(c => {
             // set the class for each span using ASCII value (xor bitwise used) to void user see
             // the current letters on chome developer tool
             // function addSpanElement(parentId,spanId,spanText)
-            addSpanElement("idCurrentWordLine",c.charCodeAt(0) /*^ 13*/,(c == " ")? " " : "-");
+            addSpanElement("idCurrentWordLine",c.charCodeAt(0) ^ 13,(c == " ")? " " : "-");
         });
         // clear the set holding the typed letters
         lettersSet.clear();
@@ -154,7 +162,7 @@ document.onkeyup = (event) => {
         return;
     }
     
-    let letterIndex = currentMusicChars.indexOf(letter);
+    let letterIndex = currentMusicCharsUpper.indexOf(letter.toUpperCase());
     debug(`letterIndex: ${letterIndex}`);
     
     if(letterIndex < 0){
@@ -169,14 +177,23 @@ document.onkeyup = (event) => {
     else{
         // get elements by class return a HTMLCollection so we need to loop
         // through elements
-        let elements = document.getElementsByClassName(letter.charCodeAt(0)^13);
+        // let elements = document.getElementsByClassName(letter.charCodeAt(0)^13);
+        let elements = document.getElementsByClassName("guessedLetter");
 
-        for(let el of elements){
-            // to display lets get the data from object to display it in the original format
-            el.textContent = currentMusicObject.bandName.charAt(letterIndex);
-        }
+        currentMusicCharsOrig.map((str,i) =>{
+            if(str.toUpperCase() === letter.toUpperCase()){
+                elements[i].textContent = str;
+            }
+        });
+
+    //     for(let i = 0; i > elements.length; i++){
+    //         // to display lets get the data from object to display it in the original format
+    //         if()
+    //         elements[letterIndex].textContent = currentMusicCharsOrig[letterIndex];
+    //         //currentMusicObject.bandName.charAt(letterIndex);
+    //    }
         
-        debug(elements);
+        debugt(elements);
     }
    // addMusicScr(currentMusic.musicID);
 }// ::: End of onkeyup

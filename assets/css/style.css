@@ -9,3 +9,7 @@ body {
 #idGuessedChars{
     height: 50px;
 }
+
+.guessedLetter{
+    padding: 4px;
+}
