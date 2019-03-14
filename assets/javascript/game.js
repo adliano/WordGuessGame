@@ -132,6 +132,13 @@ document.onkeyup = (event) => {
     }
     // if game is over means user got the band name or miss all guesses
     if(isGameOver){
+
+        // TODO: fix 
+        let children = document.getElementById("idCurrentWordLine").children;
+        for(let c of children){
+            c.remove();
+        }
+
         // remove the word "press any key to start"
         elementBandName.textContent = "??????";
         // random pick a music on the array using its key 
@@ -227,8 +234,9 @@ document.onkeyup = (event) => {
         console.table(arrayToCompare);
 
         if(currentMusicLetters.toString() === arrayToCompare.toString()){
-            elementBandName.textContent = "You got it!";
-
+            elementBandName.textContent = currentMusicObject.musicName;
+            addMusicScr(currentMusicObject.musicID);
+            isGameOver = true;
         }
         
         //debugt(elements);
