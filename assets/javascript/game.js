@@ -2,17 +2,17 @@
 
 // Get Elements
 // element where number of wins will be display
-var eelementWinsCounter = document.getElementById("idWinsCounter");
+/////////////var elWinsCounter = document.getElementById("idWinsCounter");
 // element to displas dash/letter as user type in
-var elementCurentWord = document.getElementById("idCurrentWordLine");
+/////////////var elementCurentWord = document.getElementById("idCurrentWordLine");
 // ????
-var elementGuessedCounter = document.getElementById("idGuessesCounter");
+/////////////var elementGuessedCounter = document.getElementById("idGuessesCounter");
 // element to display guessed letters
-var elementGuessedspanTexts = document.getElementById("idGuessedspanTexts");
+/////////////var elementGuessedspanTexts = document.getElementById("idGuessedspanTexts");
 // element to display bands name
 var elementBandName = document.getElementById("idBandName");
 
-// var musicKeys = Object.keys(musics);
+/////////// var musicKeys = Object.keys(musics);
 // variable used to hold keys from JSON with all musics
 var musicKeys = [];
 // variable used to hold JSON with info about selected music
@@ -28,9 +28,9 @@ var isGameOver = true;
 // init counter variables
 var winsCounter, guessesCounter = 0;
 // empty array max hold guessed letters 
-var spanTextGuessed = [];
+////////// var spanTextGuessed = [];
 // array max hold typed spanText
-var spanTextTyped = [];
+////////// var spanTextTyped = [];
 // JSON with music/bands information
 var musics = {
     0: { bandName: "Cece Peniston", musicName: "Finaly", musicID: "86037362" },
@@ -43,7 +43,7 @@ var musics = {
     7: { bandName: "No Mercy", musicName: "Where Do You Go", musicID: "252889798" },
     8: { bandName: "Everything but the Girl", musicName: "Missing", musicID: "74143904" },
     9: { bandName: "Haddaway", musicName: "What Is Love", musicID: "253391097" },
-    10: { bandName: "C+C Music Facmaxry", musicName: "Gonna Make You Sweat", musicID: "253508531" },
+    10: { bandName: "C C Music Facmaxry", musicName: "Gonna Make You Sweat", musicID: "253508531" },
     11: { bandName: "Cher", musicName: "Believe", musicID: "187003126" },
     12: { bandName: "Robin S", musicName: "Show Me Love", musicID: "232282747" },
     13: { bandName: "Culture Beat", musicName: "Mr Vain", musicID: "294660190" },
@@ -124,7 +124,7 @@ document.onkeyup = (event) => {
     // if game is over means user got the banb name or miss all guesses
     if(isGameOver){
         // remove the word "press any key to start"
-        elementBandName.textContent = "?";
+        elementBandName.textContent = "??????";
         // random pick a music on the array using its key 
         // splice will remove the key from array and return an array
         // in this case an array with a single lement that contains 
@@ -137,10 +137,10 @@ document.onkeyup = (event) => {
         // debuging
         debug(currentMusicChars);
         // display music mask in dash "-" format
-        currentMusicObject.bandName.split("").map(c => {
-            // function addSpanElement(parentId,spanId,spanText)
-            // set the class for each span using xor to void user see
+        currentMusicChars.map(c => {
+            // set the class for each span using xor bitwise to void user see
             // the current letters on chome developer tool
+            // function addSpanElement(parentId,spanId,spanText)
             addSpanElement("idCurrentWordLine",c.charCodeAt(0) ^ 13,(c == " ")? " " : "-");
         });
         // change game status
@@ -149,13 +149,11 @@ document.onkeyup = (event) => {
     }
     
     let spanTextIndex = currentMusicChars.indexOf(letter);
-    debug(spanTextIndex);
+    debug(`spanTextIndex: ${spanTextIndex}`);
+    
     
 
-    var test = document.getElementById("idCurrentWordLine").children;
-
-
-
+    //var test = document.getElementById("idCurrentWordLine").children;
 
     //////////////////////////////////////////////////////////////////////////
     if(spanTextIndex < 0){
@@ -169,10 +167,7 @@ document.onkeyup = (event) => {
             elements.item(i).textContent = letter;
         }
         
-        //  span.textContent = letter;
-       debug(elements);
-         //test[spanTextIndex].textContent = letter;
-    //     document.getElementById(currentMusicChars[spanTextIndex].charCodeAt(0)).textContent = letter;
+        debug(elements);
     }
         
 
