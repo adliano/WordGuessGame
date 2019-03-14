@@ -75,7 +75,7 @@ function addMusicScr(musicID) {
     let h = document.getElementsByTagName("iframe")[0];
     h.setAttributeNode(attr);
     // it should play music only after game is over
-    // isGameOver = true;
+    isGameOver = true;
 }
 /******************************************************************************/
 /* * * * * * * * * * * * * * * * * * rand() * * * * * * * * * * * * * * * * * */
@@ -109,14 +109,13 @@ function addSpanElement(parentId,spanId,spanText){
 /*****************************************************************************/
 document.onkeyup = (event) => {
     // get the key pressed
-    let letter = event.key;
+    let letter = event.key.toUpperCase();
 
     // Assumption:
     //  if game is over or no more music to play
     // display press any key to start the game
     
-    // TODO: need to fix thie logic
-    //  do i really need this?
+    // TODO: need to fix thie logic do i really need this?
     if(!musicKeys.length){
         // need to display something saying no more music????
         musicKeys = Object.keys(musics);
@@ -133,7 +132,7 @@ document.onkeyup = (event) => {
         // get object with info for the current music
         currentMusicObject = musics[currentMusicKey[0]];
         // create a array with the current misic letters
-        currentMusicChars = currentMusicObject.bandName.split("");
+        currentMusicChars = currentMusicObject.bandName.toUpperCase().split("");
         // debuging
         debug(currentMusicChars);
         // display music mask in dash "-" format
@@ -151,31 +150,21 @@ document.onkeyup = (event) => {
     let spanTextIndex = currentMusicChars.indexOf(letter);
     debug(`spanTextIndex: ${spanTextIndex}`);
     
-    
-
-    //var test = document.getElementById("idCurrentWordLine").children;
-
-    //////////////////////////////////////////////////////////////////////////
     if(spanTextIndex < 0){
          addSpanElement("idGuessedChars",letter,letter);
     }
     else{
-        debug(letter.charCodeAt(0)^13);
+        // get elements by class return a HTMLCollection so we need to loop
+        // through elements
         let elements = document.getElementsByClassName(letter.charCodeAt(0)^13);
 
-        for(let i = 0; i < elements.length; i++){
-            elements.item(i).textContent = letter;
+        for(let el of elements){
+            // to display lets get the data from object to display it in the original format
+            el.textContent = currentMusicObject.bandName.charAt(spanTextIndex);
         }
         
         debug(elements);
     }
-        
-
-    // random pick a music on the array using its key 
-    // splice will remove the key from array and return an array
-    // in this case an array with a single lement
-    // currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
-    // currentMusic = musics[currentMusicKey[0]];
 
     //addSpanElement(event.key,"idCurrentWordLine");
    // addMusicScr(currentMusic.musicID);
