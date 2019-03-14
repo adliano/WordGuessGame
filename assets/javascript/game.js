@@ -30,7 +30,8 @@ var lettersSet = new Set();
 // initially is false and after user press any key will be set max true
 var isGameOver = true;
 // init counter variables
-var winsCounter, guessesCounter = 0;
+var winsCounter = 0;
+var guessesCounter = 13;
 // JSON with music/bands information
 var musics = {
     0: { bandName: "Cece Peniston", musicName: "Finaly", musicID: "86037362" },
@@ -142,6 +143,8 @@ document.onkeyup = (event) => {
 
         /////////////////////////////////////////////////////////////////
         currentMusicCharsOrig = currentMusicObject.bandName.split("");
+        // romove spaces of array
+       // currentMusicCharsOrig = currentMusicCharsOrig.toString().replace(/\s/g,"").split(",");
 
 
         // create a array with the current music letters
@@ -152,8 +155,11 @@ document.onkeyup = (event) => {
         currentMusicCharsUpper.map(c => {
             // set the class for each span using ASCII value (xor bitwise used) to void user see
             // the current letters on chome developer tool
-            // function addSpanElement(parentId,spanId,spanText)
-            addSpanElement("idCurrentWordLine",c.charCodeAt(0) ^ 13,(c == " ")? " " : "-");
+            // function addSpanElement(parentId,spanId,spanText) (c == " "?"":"justAnClass")
+            addSpanElement("idCurrentWordLine","justAnClass",(c == " ")? " " : "-");
+
+
+            //addSpanElement("idCurrentWordLine",c.charCodeAt(0) ^ 13,(c == " ")? " " : "-");
         });
         // clear the set holding the typed letters
         lettersSet.clear();
@@ -178,20 +184,13 @@ document.onkeyup = (event) => {
         // get elements by class return a HTMLCollection so we need to loop
         // through elements
         // let elements = document.getElementsByClassName(letter.charCodeAt(0)^13);
-        let elements = document.getElementsByClassName("guessedLetter");
-
+        let elements = document.getElementsByClassName("justAnClass");
+        // loop thrugh the array with the original music name
         currentMusicCharsOrig.map((str,i) =>{
             if(str.toUpperCase() === letter.toUpperCase()){
                 elements[i].textContent = str;
             }
         });
-
-    //     for(let i = 0; i > elements.length; i++){
-    //         // to display lets get the data from object to display it in the original format
-    //         if()
-    //         elements[letterIndex].textContent = currentMusicCharsOrig[letterIndex];
-    //         //currentMusicObject.bandName.charAt(letterIndex);
-    //    }
         
         debugt(elements);
     }
@@ -199,6 +198,9 @@ document.onkeyup = (event) => {
 }// ::: End of onkeyup
 
 /*
+        currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
+
+
 https://www.buzzfeed.com/mjs538/jump-max-the-rhythm-jump-jump-max-the-rhythm-jump
 
 */
