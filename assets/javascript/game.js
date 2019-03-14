@@ -60,14 +60,15 @@ var musics = {
 //////////////////////////////////////////////////////////////////
 // function used for debug if no need to debug just commnet out
 // the log line
-function debug(obj = "---------------------------------"){
-    //console.trace();
-    console.log(obj);
-}
-// debug in table
-function debugt(obj){
-    console.table(obj);
-}
+// function debug(obj = "---------------------------------"){
+//     //console.trace();
+//     console.log(obj);
+// }
+// // debug in table
+// function debugt(obj){
+//     console.trace();
+//     console.table(obj);
+// }
 /*******************************************************************************/
 /* * * * * * * * * * * * * * * * addMusicScr() * * * * * * * * * * * * * * * * */
 /*******************************************************************************/
@@ -100,11 +101,13 @@ function rand(min, max) {
 /******************************************************************************/
 // this function will add element to the document
 // the idea is read from the srting and add the dashs/words 
-function addSpanElement(parentId,spanId,spanText){
+function addSpanElement(parentId,shouldAddClass,spanText){
     // create new element
     let node = document.createElement("span");
     // set attribute id with a value
-    node.setAttribute("class",`${spanId} guessedLetter`);
+    if(shouldAddClass){
+        node.setAttribute("class","justAClass");
+    }
     // add text to node
     node.textContent = spanText;
     // apend the element to it's parrent
@@ -139,28 +142,46 @@ document.onkeyup = (event) => {
         // get object with info for the current music
         currentMusicObject = musics[currentMusicKey[0]];
         // debugging //
-        debugt(musics);
+        //debugt(musics);
 
         /////////////////////////////////////////////////////////////////
         currentMusicCharsOrig = currentMusicObject.bandName.split("");
-        // romove spaces of array
-       // currentMusicCharsOrig = currentMusicCharsOrig.toString().replace(/\s/g,"").split(",");
+
+        
 
 
         // create a array with the current music letters
-        currentMusicCharsUpper = currentMusicObject.bandName.toUpperCase().split("");
+        /////////////////////currentMusicCharsUpper = currentMusicObject.bandName.toUpperCase().split("");
         // debuging
-        debug(currentMusicCharsUpper);
+        //////////////////debug(currentMusicCharsUpper);
         // display music mask in dash "-" format
-        currentMusicCharsUpper.map(c => {
+        currentMusicCharsOrig.map(c => {
             // set the class for each span using ASCII value (xor bitwise used) to void user see
             // the current letters on chome developer tool
-            // function addSpanElement(parentId,spanId,spanText) (c == " "?"":"justAnClass")
-            addSpanElement("idCurrentWordLine","justAnClass",(c == " ")? " " : "-");
+            // function addSpanElement(parentId,shouldAddClass,spanText) (c == " "?"":"justAnClass")
+            if(c == " "){
+                addSpanElement("idCurrentWordLine",false," ");
+            }
+            else{
+                addSpanElement("idCurrentWordLine",true,"-");
+            }
+            //addSpanElement("idCurrentWordLine",(c == " "?"":"justAnClass"),(c == " ")? " " : "-");
 
 
             //addSpanElement("idCurrentWordLine",c.charCodeAt(0) ^ 13,(c == " ")? " " : "-");
         });
+
+
+        // romove spaces of array
+       currentMusicCharsOrig = currentMusicCharsOrig.toString().replace(/\s/g,"").split(",");
+
+       //////////////////////////////////////
+       console.table(currentMusicCharsOrig);
+
+       currentMusicCharsUpper = new Array(currentMusicCharsOrig.length);
+
+
+
         // clear the set holding the typed letters
         lettersSet.clear();
         // change game status
@@ -168,31 +189,46 @@ document.onkeyup = (event) => {
         return;
     }
     
-    let letterIndex = currentMusicCharsUpper.indexOf(letter.toUpperCase());
-    debug(`letterIndex: ${letterIndex}`);
+    // let letterIndex = currentMusicCharsUpper.indexOf(letter.toUpperCase());
+    // debug(`letterIndex: ${letterIndex}`);
     
-    if(letterIndex < 0){
+    // if(letterIndex < 0){
+    if(currentMusicObject.bandName.toUpperCase().indexOf(letter.toUpperCase()) < 0){
          if(!lettersSet.has(letter)){
-            guessesCounter++;
-            addSpanElement("idGuessedChars",letter,letter);
+            guessesCounter--;
+            addSpanElement("idGuessedChars","",letter);
             lettersSet.add(letter);
          } 
          
-         debug(guessesCounter);
+         console.log(`Guess counter : ${guessesCounter}`);
     }
     else{
         // get elements by class return a HTMLCollection so we need to loop
         // through elements
         // let elements = document.getElementsByClassName(letter.charCodeAt(0)^13);
-        let elements = document.getElementsByClassName("justAnClass");
+        let elements = document.getElementsByClassName("justAClass");
+
+        console.log(`%c elements length: ${elements.length}`,"backgound-color: green");
+
+
+
+
         // loop thrugh the array with the original music name
         currentMusicCharsOrig.map((str,i) =>{
             if(str.toUpperCase() === letter.toUpperCase()){
                 elements[i].textContent = str;
+                currentMusicCharsUpper[i] = str;
             }
         });
+
+        console.table(currentMusicCharsUpper);
+
+        if(currentMusicCharsOrig.toString() === currentMusicCharsUpper.toString()){
+            elementBandName.textContent = "You got it!";
+
+        }
         
-        debugt(elements);
+        //debugt(elements);
     }
    // addMusicScr(currentMusic.musicID);
 }// ::: End of onkeyup
