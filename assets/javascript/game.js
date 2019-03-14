@@ -98,7 +98,7 @@ function addSpanElement(parentId,spanId,spanText){
     // create new element
     let node = document.createElement("span");
     // set attribute id with a value
-    node.setAttribute("id",spanId);
+    node.setAttribute("class",spanId);
     // add text to node
     node.textContent = spanText;
     // apend the element to it's parrent
@@ -114,17 +114,7 @@ document.onkeyup = (event) => {
     // Assumption:
     //  if game is over or no more music to play
     // display press any key to start the game
-    // if(isGameOver || !musicKeys.length){
-        // change status of the game
-        // isGameOver = !isGameOver;
-        // get all keys available at object and place it in an array
-        // this will used to void repeated music
-        // the idea is remove from this array the music after used
-        // musicKeys = Object.keys(musics);
-        // after init all game's set, get out of this funcition
-        // come back later lol
-        // return;
-    // }
+    
     // TODO: need to fix thie logic
     //  do i really need this?
     if(!musicKeys.length){
@@ -140,19 +130,18 @@ document.onkeyup = (event) => {
         // in this case an array with a single lement that contains 
         // a single music information
         currentMusicKey = musicKeys.splice(rand(0,musicKeys.length-1),1);
-        // get info for the current music
+        // get object with info for the current music
         currentMusicObject = musics[currentMusicKey[0]];
-
+        // create a array with the current misic letters
         currentMusicChars = currentMusicObject.bandName.split("");
-        // display music mask in dash "-" format
-        // currentMusicChars.forEach((i,ch) => {
-        //     addSpanElement("idCurrentWordLine",i,(ch == " ")? " " : "-");
-        // });
+        // debuging
         debug(currentMusicChars);
-
+        // display music mask in dash "-" format
         currentMusicObject.bandName.split("").map(c => {
             // function addSpanElement(parentId,spanId,spanText)
-            addSpanElement("idCurrentWordLine",c.charCodeAt(0),(c == " ")? " " : "-");
+            // set the class for each span using xor to void user see
+            // the current letters on chome developer tool
+            addSpanElement("idCurrentWordLine",c.charCodeAt(0) ^ 13,(c == " ")? " " : "-");
         });
         // change game status
         isGameOver = !isGameOver;
@@ -172,8 +161,17 @@ document.onkeyup = (event) => {
     if(spanTextIndex < 0){
          addSpanElement("idGuessedChars",letter,letter);
     }
-     else{
-         test[spanTextIndex].textContent = letter;
+    else{
+        debug(letter.charCodeAt(0)^13);
+        let elements = document.getElementsByClassName(letter.charCodeAt(0)^13);
+
+        for(let i = 0; i < elements.length; i++){
+            elements.item(i).textContent = letter;
+        }
+        
+        //  span.textContent = letter;
+       debug(elements);
+         //test[spanTextIndex].textContent = letter;
     //     document.getElementById(currentMusicChars[spanTextIndex].charCodeAt(0)).textContent = letter;
     }
         
@@ -186,8 +184,7 @@ document.onkeyup = (event) => {
 
     //addSpanElement(event.key,"idCurrentWordLine");
    // addMusicScr(currentMusic.musicID);
-}
-
+}// ::: End of onkeyup
 
 
 
