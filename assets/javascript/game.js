@@ -9,10 +9,10 @@
 /////////////var elementGuessedCounter = document.getElementById("idGuessesCounter");
 // element to display guessed letters
 /////////////var elementGuessedspanTexts = document.getElementById("idGuessedspanTexts");
+
+/////////////// GLOBAL VARIABLES /////////////
 // element to display bands name
 var elementBandName = document.getElementById("idBandName");
-
-/////////// var musicKeys = Object.keys(musics);
 // variable used to hold keys from JSON with all musics
 var musicKeys = [];
 // variable used to hold JSON with info about selected music
@@ -21,16 +21,13 @@ var currentMusicKey = [];
 var currentMusicObject;
 // array to hold the latters from the current song
 var currentMusicChars = [];
-
+// set to hold typed letters
+var lettersSet = new Set();
 // flag max control when game start and end
 // initially is false and after user press any key will be set max true
 var isGameOver = true;
 // init counter variables
 var winsCounter, guessesCounter = 0;
-// empty array max hold guessed letters 
-////////// var spanTextGuessed = [];
-// array max hold typed spanText
-////////// var spanTextTyped = [];
 // JSON with music/bands information
 var musics = {
     0: { bandName: "Cece Peniston", musicName: "Finaly", musicID: "86037362" },
@@ -83,7 +80,7 @@ function addMusicScr(musicID) {
 // Function that generate random number
 // this will return a number beteween the provided range
 // Math.random() return number between 0 (inclusive) and 1 (exclusive)
-// The maximum is inclusive and the minimum is inclusive
+// in this case, The maximum is inclusive and the minimum is inclusive
 function rand(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -120,7 +117,7 @@ document.onkeyup = (event) => {
         // need to display something saying no more music????
         musicKeys = Object.keys(musics);
     }
-    // if game is over means user got the banb name or miss all guesses
+    // if game is over means user got the band name or miss all guesses
     if(isGameOver){
         // remove the word "press any key to start"
         elementBandName.textContent = "??????";
@@ -142,16 +139,24 @@ document.onkeyup = (event) => {
             // function addSpanElement(parentId,spanId,spanText)
             addSpanElement("idCurrentWordLine",c.charCodeAt(0) ^ 13,(c == " ")? " " : "-");
         });
+        // clear the set holding the typed letters
+        lettersSet.clear();
         // change game status
         isGameOver = !isGameOver;
         return;
     }
     
-    let spanTextIndex = currentMusicChars.indexOf(letter);
-    debug(`spanTextIndex: ${spanTextIndex}`);
+    let letterIndex = currentMusicChars.indexOf(letter);
+    debug(`letterIndex: ${letterIndex}`);
     
-    if(spanTextIndex < 0){
-         addSpanElement("idGuessedChars",letter,letter);
+    if(letterIndex < 0){
+         if(!lettersSet.has(letter)){
+            guessesCounter++;
+            addSpanElement("idGuessedChars",letter,letter);
+            lettersSet.add(letter);
+         } 
+         
+         debug(guessesCounter);
     }
     else{
         // get elements by class return a HTMLCollection so we need to loop
@@ -160,89 +165,15 @@ document.onkeyup = (event) => {
 
         for(let el of elements){
             // to display lets get the data from object to display it in the original format
-            el.textContent = currentMusicObject.bandName.charAt(spanTextIndex);
+            el.textContent = currentMusicObject.bandName.charAt(letterIndex);
         }
         
         debug(elements);
     }
-
-    //addSpanElement(event.key,"idCurrentWordLine");
    // addMusicScr(currentMusic.musicID);
 }// ::: End of onkeyup
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Music links DELETE LATER
 /*
 https://www.buzzfeed.com/mjs538/jump-max-the-rhythm-jump-jump-max-the-rhythm-jump
-
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/86037362&color=%23845056&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/214692725&color=%23845056&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/317193970&color=%23845056&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/288857770&color=%23845056&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/253516188&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/254564353&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/252889798&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Everything but the Girl - Missing
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/74143904&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Haddaway - What Is Love
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/253391097&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-C+C Music Facmaxry - Gonna Make You Sweat
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/253508531&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Cher - Believe
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/187003126&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Show Me Love - Robin S
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/232282747&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Culture Beat - Mr Vain
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/294660190&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Ace of Base - All That She Wants
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/225044776&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Technotronic - Pump Up The Jam
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/252477974&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Madonna - Vogue
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/214807095&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Nicki French - maxtal Eclipse Of The Heart
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/263568855&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Ace of Base - The Sign
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/230451035&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Daft Punk - Around The World
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/171951429&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Rhythm is a dancer - Snap
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/36572934&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-Montell Jordan - This Is How We Do It
-<iframe width="100%" height="600" scrolling="no" frameborder="no" allow="aumaxplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/253186536&color=%2384acf0&aumax_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/253506396&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-********* YOUTUBE does not work **********
-<iframe width="1254" height="705" src="https://www.youtube.com/embed/7X3YpXiI5dM" frameborder="0" allow="accelerometer; aumaxplay; encrypted-media; gyroscope;" allowfullscreen></iframe>
-
-
 
 */
