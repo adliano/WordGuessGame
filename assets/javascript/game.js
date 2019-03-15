@@ -132,12 +132,11 @@ document.onkeyup = (event) => {
     }
     // if game is over means user got the band name or miss all guesses
     if(isGameOver){
+        // clear the used <span> to reload a new ones
+        let parrent = document.getElementById("idCurrentWordLine");
+        parrent.innerHTML = "";
 
-        // TODO: fix 
-        let children = document.getElementById("idCurrentWordLine").children;
-        for(let c of children){
-            c.remove();
-        }
+        
 
         // remove the word "press any key to start"
         elementBandName.textContent = "??????";
