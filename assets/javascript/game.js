@@ -2,7 +2,7 @@
 // element to display bands name
 var elementBandName = document.getElementById("idBandName");
 // element to display reload msg
-var reloadMessage = document.getElementById("reloadGameMsg");
+//var reloadMessage = document.getElementById("reloadGameMsg");
 // variable used to hold keys from JSON with all musics
 var musicKeys = [];
 // variabe to hold the current song JSON
@@ -94,12 +94,11 @@ function resetGamePlay() {
     clearTextById("idCurrentWordLine");
     clearTextById("idGuessedChars");
     clearTextById("idBandName");
+    // remove the word "press any key to start"
     clearTextById("reloadGameMsg");
 
     guessesCounter = 13;
-    // remove the word "press any key to start"
-    reloadMessage.innerText = "";
-    // elementBandName.textContent = "";
+    
     document.getElementById("idGuessesCounter").textContent = guessesCounter;
     // Approach:
     // random pick a music on the array using its key 
@@ -149,6 +148,7 @@ document.onkeyup = (event) => {
     // get the key pressed
     let letter = event.key;
     // if array with keys is empty, reload it
+    // in case one day we load musics URL from server
     if (!musicKeys.length) {
         musicKeys = Object.keys(musics);
     }
@@ -157,20 +157,19 @@ document.onkeyup = (event) => {
     if (isGameOver) {
         resetGamePlay();
     }
-    // check if typed letter exist on band name, 
+    // check if typed letter exist on band name 
     if (musicObject.bandName.toUpperCase().indexOf(letter.toUpperCase()) < 0) {
         // check if user typed new miss guessed letter
         if (!lettersSet.has(letter)) {
-            // update counter
-            guessesCounter--;
             // add the new miss guessed letter to display
             addSpanElement("idGuessedChars", "", letter);
             // add it to the guessed set
             lettersSet.add(letter);
+            // update couter on display
+            document.getElementById("idGuessesCounter").textContent = --guessesCounter;
         }
-        // update couter on display
-        document.getElementById("idGuessesCounter").textContent = guessesCounter;
-    } else {
+    } 
+    else {
         // get elements by class return a HTMLCollection so we need to loop
         // through elements
         let elements = document.getElementsByClassName("justAClass");
@@ -192,6 +191,7 @@ document.onkeyup = (event) => {
         if (guessesCounter > 0) {
             document.getElementById("idWinsCounter").textContent = ++winsCounter;
         }
+        document.getElementById("reloadGameMsg").textContent = " Press Any Key to Continue";
         isGameOver = true;
     }
 } // ::: End of onkeyup
