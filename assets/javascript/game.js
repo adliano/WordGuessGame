@@ -195,21 +195,9 @@ document.onkeyup = (event) => {
         // add animation bounce in to display the band name
         bandName.classList.remove("bounceOut");
         bandName.classList.add("bounceInDown");
-
-
+        // play music
         addMusicScr(musicObject.musicID);
-        // check if user wins
-        if (guessesCounter > 0) {
-            document.getElementById("idWinsCounter").textContent = ++winsCounter;
-            // document.getElementById("idDivHeader").classList.add("animated infinite bounce delay-2s");
-
-            // TODO: fix this animation 
-            //var element = document.getElementById("idDivHeader");
-            //element.classList.add("animated");// infinite bounce delay-2s");
-            // element.classList.add("infinite");
-            // element.classList.add("flash");
-            // element.classList.add("delay-2s");
-        }
+        // display msg to reload game
         let reloadmsg = document.getElementById("reloadGameMsg");
         reloadmsg.textContent = "Press Any Key to Continue";
         // animate <iframe> out
@@ -217,6 +205,10 @@ document.onkeyup = (event) => {
         iframe.classList.remove("zoomOutDown");
         iframe.classList.add("jackInTheBox");
         isGameOver = true;
+        // check if user wins
+        if (guessesCounter > 0) {
+            document.getElementById("idWinsCounter").textContent = ++winsCounter;
+        }
     }
 } // ::: End of onkeyup
 
