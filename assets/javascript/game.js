@@ -130,8 +130,9 @@ function resetGamePlay() {
 //  if game is over or no more music to play
 //  display, press any key to start the game
 document.onkeyup = (event) => {
-    // get the key pressed
-    let letter = event.key;
+    
+    console.table(event);
+
     // if array with keys is empty, reload it
     // in case one day we load musics URL from server
     if (!musicKeys.length) {
@@ -142,6 +143,22 @@ document.onkeyup = (event) => {
     if (isGameOver) {
         resetGamePlay();
     }
+    // check if user enter a valid letter
+    // if(47 > letter.charCodeAt() && letter.charCodeAt() > 58 ||
+    //    57 < letter.charCodeAt() && letter.charCodeAt() < 65 ||
+    //    letter.toUpperCase().charCodeAt() > 90)
+    if(event.keyCode > 90 || event.keyCode < 65 && event.keyCode > 57 || event.keyCode < 47 )
+    {
+        console.log(`RETURN : you enter entered ${event.key} : ${event.keyCode}`);
+        return;
+    }
+    console.log(`you enter entered  ${event.key} : ${event.keyCode}`);
+
+    // get the key pressed
+    let letter = event.key;
+
+
+
     // check if typed letter exist on band name 
     if (musicObject.bandName.toUpperCase().indexOf(letter.toUpperCase()) < 0) {
         // check if user typed new miss guessed letter

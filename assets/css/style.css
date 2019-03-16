@@ -6,6 +6,17 @@ body {
     height: 50px;
 }
 
+.circle {
+    display: block;
+    background: black;
+    border-radius: 50%;
+    height: 300px;
+    width: 300px;
+    margin: 0;
+    background: radial-gradient(circle at 100px 100px, #fd0d0d, #000);
+  }
+  
+
 #idCurrentWordLine{
     height: 50px;
 }
