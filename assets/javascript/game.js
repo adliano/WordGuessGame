@@ -1,8 +1,6 @@
 /////////////// GLOBAL VARIABLES /////////////
 // element to display bands name
-var elementBandName = document.getElementById("idBandName");
-// element to display reload msg
-//var reloadMessage = document.getElementById("reloadGameMsg");
+// var elementBandName = document.getElementById("idBandName");
 // variable used to hold keys from JSON with all musics
 var musicKeys = [];
 // variabe to hold the current song JSON
@@ -20,20 +18,6 @@ var isGameOver = true;
 var winsCounter = 0;
 // counter to know how many guess left
 var guessesCounter = 13;
-//////////////////////////////////////////////////////////////////
-////////////////////// DEBUG Methods /////////////////////////////
-//////////////////////////////////////////////////////////////////
-// function used for debug if no need to debug just commnet out
-// the log line
-// function debug(obj = "---------------------------------"){
-//     //console.trace();
-//     console.log(obj);
-// }
-// // debug in table
-// function debugt(obj){
-//     console.trace();
-//     console.table(obj);
-// }
 /*******************************************************************************/
 /* * * * * * * * * * * * * * * * addMusicScr() * * * * * * * * * * * * * * * * */
 /*******************************************************************************/
@@ -96,9 +80,10 @@ function resetGamePlay() {
     clearTextById("idBandName");
     // remove the word "press any key to start"
     clearTextById("reloadGameMsg");
-
+    // remove the song
+    document.getElementsByTagName("iframe")[0].setAttribute("src","");
+    // reset the gesses counter
     guessesCounter = 13;
-    
     document.getElementById("idGuessesCounter").textContent = guessesCounter;
     // Approach:
     // random pick a music on the array using its key 
@@ -185,7 +170,7 @@ document.onkeyup = (event) => {
     }
     // check if game is over
     if (currentMusicLetters.toString() === arrayToCompare.toString() || guessesCounter === 0) {
-        elementBandName.textContent = `${musicObject.musicName} by ${musicObject.bandName}`;
+        document.getElementById("idBandName").textContent = `${musicObject.musicName} by ${musicObject.bandName}`;
         addMusicScr(musicObject.musicID);
         // check if user wins
         if (guessesCounter > 0) {

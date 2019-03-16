@@ -2,6 +2,10 @@ body {
     background-color: black;
 }
 
+.bandname{
+    height: 50px;
+}
+
 #idCurrentWordLine{
     height: 50px;
 }

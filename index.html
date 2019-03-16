@@ -12,21 +12,23 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
     <link rel="stylesheet" href="./assets/css/style.css">
-    <!-- ------------- Script ---------------- -->
+    <!-- - Script - -->
     <script type="text/javascript" src="./assets/javascript/game.js"></script>
     <script type="text/javascript" src="./assets/javascript/musics.js"></script>
 </head>
-
+<!-- ***************************************** -->
+<!-- ***************** BODY ****************** -->
+<!-- ***************************************** -->
 <body class="bg-dark p-3">
     <div class="container p-3">
         <!-- Row used for Header -->
         <div class="row  bg-primary p-3">
             <!-- TODO: Create Header -->
-            <h1 class="text-light mx-auto">Place holder for header</h1>
+            <h1 class="text-light mx-auto">90's Dance Hits</h1>
         </div>
         <!-- Row to display Band's name -->
         <div class="row text-light p-3">
-            <h3 id="idBandName" class="mx-auto"></h3>
+            <h3 id="idBandName" class="mx-auto bandname"></h3>
         </div>
         <!-- Row used for the main content -->
         <!-- 
@@ -38,14 +40,16 @@
          -->
         <div class="row text-center">
             <!-- Left Column -->
-            <div class="col-md-6 border py-3">
+            <!-- Col that will display the image of the song -->
+            <!-- TODO: remove if not use -->
+            <div id="idImagePlaceHolder" class="col-md-6 border py-3">
                 <!-- <h1>Col one</h1> -->
                 <!-- <img src="http://placehold.it/150x150" alt="band's image"> -->
                 <!-- <iframe src="http://www.youtube.com/embed/Yt-KMPvgKPo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
                 <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay"></iframe>
-
             </div><!-- end of left col -->
             <!-- Right Column -->
+            <!-- Col that will hold the info of game play -->
             <div class="col-md-6 text-light border py-3">
                 <h4>Press any key to started!</h4>
                 <h4>Wins: <span id="idWinsCounter">0</span></h4>
