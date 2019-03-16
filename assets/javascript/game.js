@@ -83,20 +83,24 @@ function resetGamePlay() {
     bandName.classList.add("bounceOut");
     // animate <iframe> out
     let iframe = document.getElementById("idFrame");
+    // remove animation in 
     iframe.classList.remove("jackInTheBox");
+    // remove the song
+    iframe.removeAttribute("src");
+    // add animation out
     iframe.classList.add("zoomOutDown");
     // remove the word "press any key to start"
     clearTextById("reloadGameMsg");
-    // remove the song
-    document.getElementsByTagName("iframe")[0].setAttribute("src","");
+    
+    //document.getElementsByTagName("iframe")[0].setAttribute("src","");
     // reset the gesses counter
     guessesCounter = 13;
     document.getElementById("idGuessesCounter").textContent = guessesCounter;
+
     // Approach:
     // random pick a music on the array using its key 
     // splice will remove the key from array and return an array
-    // in this case an array with a single lement that contains 
-    // a single music information.
+
     // variable used to hold JSON with info about selected music
     let currentMusicKey = musicKeys.splice(rand(0, musicKeys.length - 1), 1);
     // get object with info for the current music
@@ -106,19 +110,14 @@ function resetGamePlay() {
     // display music mask in dash "-" format
     musicObject.bandName.split("").map(c => {
         if (c == " ") {
-            // if music name have whitespace, than add a <span>
-            // without a class and textContent space
-            // latter we will get the array with the spans with the class
-            // and we want void work with whitepaces
+            // if music name have whitespace, than add a <span> without a class and textContent space
+            // latter we will get the array with the spans with the class and we want void work with whitepaces
             addSpanElement("idCurrentWordLine", false, " ");
         } else {
             // else add a class and dash
             addSpanElement("idCurrentWordLine", true, "-");
         }
     });
-    //////////////////////////////////////
-    console.log(musicObject.bandName);
-    //////////////////////////////////////
     // init the array with the same size of the one witch has the letters 
     // for the current band name.
     // This is important because we will use index to load this array latter
@@ -143,24 +142,17 @@ document.onkeyup = (event) => {
         musicKeys = Object.keys(musics);
     }
     // if game is over means user got the band name or miss all guesses
-    // so reset game will happen inside here
     if (isGameOver) {
+        // so reset game will happen inside here
         resetGamePlay();
     }
     // check if user enter a valid letter
-    // if(47 > letter.charCodeAt() && letter.charCodeAt() > 58 ||
-    //    57 < letter.charCodeAt() && letter.charCodeAt() < 65 ||
-    //    letter.toUpperCase().charCodeAt() > 90)
     if(event.keyCode > 90 || event.keyCode < 65 && event.keyCode > 57 || event.keyCode < 47 )
     {
-        //console.log(`RETURN : you enter entered ${event.key} : ${event.keyCode}`);
         return;
     }
-    //console.log(`you enter entered  ${event.key} : ${event.keyCode}`);
-
     // get the key pressed
     let letter = event.key;
-
     // check if typed letter exist on band name 
     if (musicObject.bandName.toUpperCase().indexOf(letter.toUpperCase()) < 0) {
         // check if user typed new miss guessed letter
@@ -205,7 +197,7 @@ document.onkeyup = (event) => {
         iframe.classList.remove("zoomOutDown");
         iframe.classList.add("jackInTheBox");
         isGameOver = true;
-        // check if user wins
+        // check if user wins and updaded the counter
         if (guessesCounter > 0) {
             document.getElementById("idWinsCounter").textContent = ++winsCounter;
         }

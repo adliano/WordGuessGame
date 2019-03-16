@@ -98,8 +98,42 @@ var musics = {
         bandName: "Montell Jordan",
         musicName: "This Is How We Do It",
         musicID: "253186536"
+    },
+    20: {
+        bandName: "Los Del Rio",
+        musicName: "La Macarena",
+        musicID: "227142158"
+    },
+    21: {
+        bandName: "Mr President",
+        musicName: "Coco Jamboo",
+        musicID: "184145028"
+    },
+    22: {
+        bandName: "Vengaboys",
+        musicName: "Boom Boom Boom Boom",
+        musicID: "151518382"
+    },
+    23: {
+        bandName: "LOU BEGA",
+        musicName: "MAMBO No 5",
+        musicID: "169935735"
+    },
+    24: {
+        bandName: "Snap",
+        musicName: "The Power",
+        musicID: "150029727"
+    },
+    25: {
+        bandName: "Double You",
+        musicName: "Please Don't Go",
+        musicID: "226234881"
+    },
+    26: {
+        bandName: "Ini Kamoze",
+        musicName: "Here Comes the Hotstepper",
+        musicID: "263259214"
     }
 };
-
-// Mr. President - Coco Jamboo (Extended)
-// <iframe width="100%" height="600" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/184145028&color=%2384acf0&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+/*
+*/
