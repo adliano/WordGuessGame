@@ -29,12 +29,13 @@
             <!-- TODO: Create Header -->
             <!-- <div class="col"> -->
                 <!-- <figure class="circle"></figure> -->
-                <h1 class="text-light mx-auto">90's Dance Hits</h1>
+                <!-- animate infinite heartBeat slow -->
+                <h1 class="text-light mx-auto ">90's Dance Hits</h1>
             <!-- </div> -->
         </div>
         <!-- Row to display Band's name -->
         <div class="row text-light p-3">
-            <h3 id="idBandName" class="mx-auto bandname"></h3>
+            <h3 id="idBandName" class="mx-auto bandname animated slower"></h3>
         </div>
         <!-- Row used for the main content -->
         <!-- 
@@ -47,15 +48,13 @@
         <div class="row text-center">
             <!-- Left Column -->
             <!-- Col that will display the image of the song -->
-            <div class="col-md-6 border py-3">
+            <div class="col-md-4 border py-3">
                 <!-- <h1>Col one</h1> -->
-                <!-- <img src="http://placehold.it/150x150" alt="band's image"> -->
-                <!-- <iframe src="http://www.youtube.com/embed/Yt-KMPvgKPo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-                <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay"></iframe>
+                <iframe id="idFrame" class="animated slow" width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay"></iframe>
             </div><!-- end of left col -->
             <!-- Right Column -->
             <!-- Col that will hold the info of game play -->
-            <div class="col-md-6 text-light border py-3">
+            <div class="col-md-8 text-light border py-3">
                 <h4>Press any key to started!</h4>
                 <h4>Wins: <span id="idWinsCounter">0</span></h4>
                 <h4>Curent Word</h4>
@@ -67,7 +66,7 @@
         </div><!-- END of ROW-->
         <!-- Row to message to start the game -->
         <div class="row text-light p-3">
-            <h3 id="reloadGameMsg" class="mx-auto">PRESS ANY KEY TO START</h3>
+            <h3 id="reloadGameMsg" class="mx-auto animated infinite flash slow">PRESS ANY KEY TO START</h3>
         </div>
     </div>
 

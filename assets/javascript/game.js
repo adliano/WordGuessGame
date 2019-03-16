@@ -55,7 +55,7 @@ function addSpanElement(parentId, shouldAddClass, spanText) {
     let node = document.createElement("span");
     // set attribute id with a value
     if (shouldAddClass) {
-        node.setAttribute("class", "justAClass");
+        node.setAttribute("class", "justAClass px-1");
     }
     // add text to node
     node.textContent = spanText;
@@ -77,7 +77,14 @@ function resetGamePlay() {
     // clear the used <span> to reload a new ones
     clearTextById("idCurrentWordLine");
     clearTextById("idGuessedChars");
-    clearTextById("idBandName");
+    // animate band name out
+    let bandName = document.getElementById("idBandName");
+    bandName.classList.remove("bounceInDown");
+    bandName.classList.add("bounceOut");
+    // animate <iframe> out
+    let iframe = document.getElementById("idFrame");
+    iframe.classList.remove("jackInTheBox");
+    iframe.classList.add("zoomOutDown");
     // remove the word "press any key to start"
     clearTextById("reloadGameMsg");
     // remove the song
@@ -130,9 +137,6 @@ function resetGamePlay() {
 //  if game is over or no more music to play
 //  display, press any key to start the game
 document.onkeyup = (event) => {
-    
-    console.table(event);
-
     // if array with keys is empty, reload it
     // in case one day we load musics URL from server
     if (!musicKeys.length) {
@@ -149,15 +153,13 @@ document.onkeyup = (event) => {
     //    letter.toUpperCase().charCodeAt() > 90)
     if(event.keyCode > 90 || event.keyCode < 65 && event.keyCode > 57 || event.keyCode < 47 )
     {
-        console.log(`RETURN : you enter entered ${event.key} : ${event.keyCode}`);
+        //console.log(`RETURN : you enter entered ${event.key} : ${event.keyCode}`);
         return;
     }
-    console.log(`you enter entered  ${event.key} : ${event.keyCode}`);
+    //console.log(`you enter entered  ${event.key} : ${event.keyCode}`);
 
     // get the key pressed
     let letter = event.key;
-
-
 
     // check if typed letter exist on band name 
     if (musicObject.bandName.toUpperCase().indexOf(letter.toUpperCase()) < 0) {
@@ -187,7 +189,14 @@ document.onkeyup = (event) => {
     }
     // check if game is over
     if (currentMusicLetters.toString() === arrayToCompare.toString() || guessesCounter === 0) {
-        document.getElementById("idBandName").textContent = `${musicObject.musicName} by ${musicObject.bandName}`;
+        //display band name
+        let bandName = document.getElementById("idBandName");
+        bandName.textContent = `${musicObject.musicName} by ${musicObject.bandName}`;
+        // add animation bounce in to display the band name
+        bandName.classList.remove("bounceOut");
+        bandName.classList.add("bounceInDown");
+
+
         addMusicScr(musicObject.musicID);
         // check if user wins
         if (guessesCounter > 0) {
@@ -195,13 +204,18 @@ document.onkeyup = (event) => {
             // document.getElementById("idDivHeader").classList.add("animated infinite bounce delay-2s");
 
             // TODO: fix this animation 
-            var element = document.getElementById("idDivHeader");
-            element.classList.add("animated");// infinite bounce delay-2s");
-            element.classList.add("infinite");
-            element.classList.add("flash");
-            element.classList.add("delay-2s");
+            //var element = document.getElementById("idDivHeader");
+            //element.classList.add("animated");// infinite bounce delay-2s");
+            // element.classList.add("infinite");
+            // element.classList.add("flash");
+            // element.classList.add("delay-2s");
         }
-        document.getElementById("reloadGameMsg").textContent = "Press Any Key to Continue";
+        let reloadmsg = document.getElementById("reloadGameMsg");
+        reloadmsg.textContent = "Press Any Key to Continue";
+        // animate <iframe> out
+        let iframe = document.getElementById("idFrame");
+        iframe.classList.remove("zoomOutDown");
+        iframe.classList.add("jackInTheBox");
         isGameOver = true;
     }
 } // ::: End of onkeyup
