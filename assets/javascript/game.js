@@ -1,6 +1,6 @@
 /////////////// GLOBAL VARIABLES /////////////
-// element to display bands name
-// var elementBandName = document.getElementById("idBandName");
+// TODO: animated infinite bounce delay-2s
+
 // variable used to hold keys from JSON with all musics
 var musicKeys = [];
 // variabe to hold the current song JSON
@@ -192,8 +192,16 @@ document.onkeyup = (event) => {
         // check if user wins
         if (guessesCounter > 0) {
             document.getElementById("idWinsCounter").textContent = ++winsCounter;
+            // document.getElementById("idDivHeader").classList.add("animated infinite bounce delay-2s");
+
+            // TODO: fix this animation 
+            var element = document.getElementById("idDivHeader");
+            element.classList.add("animated");// infinite bounce delay-2s");
+            element.classList.add("infinite");
+            element.classList.add("flash");
+            element.classList.add("delay-2s");
         }
-        document.getElementById("reloadGameMsg").textContent = " Press Any Key to Continue";
+        document.getElementById("reloadGameMsg").textContent = "Press Any Key to Continue";
         isGameOver = true;
     }
 } // ::: End of onkeyup
